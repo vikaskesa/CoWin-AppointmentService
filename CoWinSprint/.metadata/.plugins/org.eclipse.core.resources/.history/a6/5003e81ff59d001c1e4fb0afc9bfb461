@@ -1,0 +1,33 @@
+package com.abc.appointmentservice.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
+import com.abc.appointmentservice.model.User;
+import com.abc.appointmentservice.model.VaccinationCenter;
+
+public class UserService {
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	public User getVaccinationCenterDetails(int userId) {
+	User user = null;
+
+	String resourceUrl = "http://productservice/project/product/get/" + userId;
+
+	ResponseEntity<User> productResponseEntity = restTemplate.getForEntity(resourceUrl, User.class);
+
+	if (productResponseEntity.getStatusCode() == HttpStatus.OK) {
+		user = productResponseEntity.getBody();
+
+		return user;
+	}
+	return user;
+	}
+
+}
+
+
+}

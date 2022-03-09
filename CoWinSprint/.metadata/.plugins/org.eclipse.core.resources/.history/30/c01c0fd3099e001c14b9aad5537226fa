@@ -1,0 +1,90 @@
+package com.abc.appointmentservice.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.abc.appointmentservice.entity.AppointmentEntity;
+import com.abc.appointmentservice.exception.AppointmentNotFoundException;
+import com.abc.appointmentservice.model.Appointment;
+import com.abc.appointmentservice.model.AppointmentDetails;
+import com.abc.appointmentservice.model.User;
+import com.abc.appointmentservice.model.VaccinationCenter;
+import com.abc.appointmentservice.repository.AppointmentRepository;
+import com.abc.appointmentservice.util.AppointmentUtil;
+
+@Service
+public class AppointmentServiceImpl implements AppointmentService {
+	
+	@Autowired
+	private AppointmentRepository  appointmentRepository;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private VaccinationCenterService vaccinationCenterService;
+
+	@Override
+	public Appointment bookAppointment(Appointment appointment) {
+		AppointmentEntity appointmentEntity = appointmentRepository.save(AppointmentUtil.appointmentModelToEntity(appointment));
+		
+		return AppointmentUtil.appointmentEntityToModel(appointmentEntity);
+	}
+
+	@Override
+	public void cancelAppointment(int appointmentId) {
+Optional<AppointmentEntity> optionalAppointmentEntity = appointmentRepository.findById(appointmentId);
+		
+		if(optionalAppointmentEntity.isPresent()) {			
+			appointmentRepository.deleteById(appointmentId);			
+		}
+		else {
+			throw new AppointmentNotFoundException("Sorry! Appointment is not existing with id: "+appointmentId);
+		}	
+	}
+	
+	@Override
+	public Appointment viewAppointmentbyId(int appointmentId) {
+		Optional<AppointmentEntity> optionalAppointment= appointmentRepository.findById(appointmentId);
+		
+		if(optionalAppointment.isEmpty()) {
+			throw new AppointmentNotFoundException("Sorry! Appointment is not existing with id: "+appointmentId);
+		}
+		return AppointmentUtil.appointmentEntityToModel(optionalAppointment.get());		
+	}
+	
+	@Override
+		public Appointment updateAppointment(Appointment appointment) {
+			Optional<AppointmentEntity> optionalAppointmentEntity = appointmentRepository.findById(appointment.getAppointmentId());
+		
+		if(optionalAppointmentEntity.isEmpty()) {
+			throw new AppointmentNotFoundException("Sorry! Appointment is not existing with id: "+appointment.getAppointmentId());
+		}
+		
+		AppointmentEntity updatedProductEntity = appointmentRepository.save(AppointmentUtil.appointmentModelToEntity(appointment));
+		
+		return AppointmentUtil.appointmentEntityToModel(updatedProductEntity);
+	}
+			
+	@Override
+	public AppointmentDetails viewAppointmentdetails(int appointmentId) {
+		Optional<Appointment> optionalAppointment = appointmentRepository.findById(appointmentId);
+		if (optionalAppointment.isEmpty()) {
+			throw new AppointmentNotFoundException("Appointment id dosent exists with id : " + appointmentId);
+		}
+		Appointment appointment=optionalAppointment.get();
+		User user=userService.getUserDetails(appointment.getUserId());
+		VaccinationCenter vaccinationCenter=vaccinationCenterService.getVaccinationCenterDetails(appointment.getCenterId());
+		
+		AppointmentDetails appointmentDetails=new AppointmentDetails();
+		appointmentDetails.setUser(user);
+		appointmentDetails.setVaccinationCenter(vaccinationCenter);
+		appointmentDetails.setAppointment(appointment);
+		
+
+		return appointmentDetails;
+	}
+
+}

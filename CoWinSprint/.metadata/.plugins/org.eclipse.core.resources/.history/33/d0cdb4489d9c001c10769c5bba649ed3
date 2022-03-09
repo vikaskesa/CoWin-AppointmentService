@@ -1,0 +1,45 @@
+package com.abc.appointmentservice.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.abc.appointmentservice.entity.Appointment;
+import com.abc.appointmentservice.model.AppointmentDetails;
+import com.abc.appointmentservice.service.AppointmentService;
+
+@RestController
+public class AppointmentController {
+	
+	@Autowired
+	private AppointmentService appointmentService;
+	
+	public ResponseEntity<Appointment> saveAppointment(@RequestBody Appointment appointment){
+
+		Appointment newAppointment=appointmentService.bookAppointment(appointment);
+		return new ResponseEntity<>(newAppointment,HttpStatus.CREATED);
+		
+	}
+	
+	public ResponseEntity<?> deleteAppointmentById(int appointmentId){
+		appointmentService.cancelAppointment(appointmentId);
+		return new ResponseEntity<>("Deleted product with id :"+appointmentId,HttpStatus.OK);
+	}
+	
+	public ResponseEntity<Appointment> fetchAppointmentById(int appointmentId){
+		Appointment appointment=appointmentService.viewAppointmentbyId(appointmentId);
+		return new ResponseEntity<>(appointment,HttpStatus.OK);
+			
+	}
+	
+	public ResponseEntity<Appointment> modifyProduct(@RequestBody Appointment appointment) {
+		Appointment updatedAppointment = appointmentService.updateAppointment(appointment);
+		return new ResponseEntity<>(updatedAppointment, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<AppointmentDetails> fetchOrder( int appointmentId) {
+		AppointmentDetails appointmentDetails=appointmentService.viewAppointmentdetails(appointmentId);
+		return new ResponseEntity<>(appointmentDetails,HttpStatus.OK);
+}

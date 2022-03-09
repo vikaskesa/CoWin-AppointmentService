@@ -1,0 +1,26 @@
+package com.abc.appointmentservicetest;
+
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.abc.appointmentservice.repository.AppointmentRepository;
+import com.abc.appointmentservice.service.AppointmentService;
+import com.abc.appointmentservice.service.AppointmentServiceImpl;
+
+@SpringBootTest
+public class AppointmentTest {
+	
+	@InjectMocks
+	AppointmentService appointmentService=new AppointmentServiceImpl();
+	
+	@Mock
+	private AppointmentRepository appointmentRepository;
+	
+	@Test
+	public void testBookAppointment() {
+		
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.abc.appointmentservice.util;
+
+public class AppointmentUtil {
+
+}

@@ -1,0 +1,55 @@
+package com.abc.appointmentservice.util;
+
+
+import java.util.ArrayList;
+
+import com.abc.appointmentservice.entity.AppointmentEntity;
+import com.abc.appointmentservice.model.Appointment;
+
+import antlr.collections.List;
+
+public class AppointmentUtil {
+	public static AppointmentEntity appointmentModelToEntity(Appointment appointment) {
+
+		AppointmentEntity appointmentEntity=new AppointmentEntity();
+		
+		appointmentEntity.setAppointmentId(appointment.getAppointmentId());
+		appointmentEntity.setCenterId(appointment.getCenterId());
+		appointmentEntity.setDateOfAppointment(appointment.getDateOfAppointment());
+		appointmentEntity.setDoseNumber(appointment.getDoseNumber());
+		appointmentEntity.setTypeOfVaccine(appointment.getTypeOfVaccine());
+		appointmentEntity.setUserId(appointment.getUserId());
+		
+		return appointmentEntity;
+	}
+
+	public static Appointment appointmentEntityToModel(AppointmentEntity appointmentEntity) {
+
+		Appointment appointment=new Appointment();
+		appointment.setAppointmentId(appointmentEntity.getAppointmentId());
+		appointment.setCenterId(appointmentEntity.getCenterId());
+		appointment.setDateOfAppointment(appointmentEntity.getDateOfAppointment());
+		appointment.setDoseNumber(appointment.getDoseNumber());
+		appointment.setTypeOfVaccine(appointment.getTypeOfVaccine());
+		appointment.setUserId(appointmentEntity.getUserId());
+		
+		return appointment;
+	}
+	
+	public static List<Appointment> appointmentEntityToModelList(List<AppointmentEntity> entityList) {
+		
+		List<Appointment> productList = new ArrayList<>();
+		
+		entityList.forEach(entity -> {
+			Product product = new Product();
+			product.setProductId(entity.getProductId());
+			product.setProductName(entity.getProductName());
+			product.setProductPrice(entity.getProductPrice());
+			product.setProductCategory(entity.getProductCategory());
+			product.setCreateOn(entity.getCreateOn());
+			productList.add(product);
+		});
+		
+		return productList;
+
+}

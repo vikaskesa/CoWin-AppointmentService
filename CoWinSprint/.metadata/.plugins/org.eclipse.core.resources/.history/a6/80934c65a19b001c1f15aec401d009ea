@@ -1,0 +1,26 @@
+package com.abc.appointmentservice.service;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
+import com.abc.appointmentservice.model.User;
+
+public class VaccinationCenterService {
+	
+	private RestTemplate restTemplate;
+	public VaccinationCenter getUserDetails(int Id) {
+
+		User customer = null;
+
+		String resourceUrl = null;
+
+		ResponseEntity<User> customerResponseEntity = restTemplate.getForEntity(resourceUrl, User.class);
+
+		if (customerResponseEntity.getStatusCode() == HttpStatus.OK) {
+			customer = customerResponseEntity.getBody();
+
+			return customer;
+		}
+
+}

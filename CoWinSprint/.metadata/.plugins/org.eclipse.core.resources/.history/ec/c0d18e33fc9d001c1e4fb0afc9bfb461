@@ -1,0 +1,46 @@
+package com.abc.appointmentservice.util;
+
+import com.abc.appointmentservice.entity.Appointment;
+
+public class AppointmentUtil {
+	public static Appointment productModelToEntity(Appointment appointment) {
+
+		 productEntity = new ProductEntity();
+		productEntity.setProductId(product.getProductId());
+		productEntity.setProductName(product.getProductName());
+		productEntity.setProductPrice(product.getProductPrice());
+		productEntity.setProductCategory(product.getProductCategory());
+		productEntity.setCreateOn(product.getCreateOn());
+
+		return productEntity;
+	}
+
+	public static Appointment productEntityToModel(ProductEntity productEntity) {
+
+		Product product = new Product();
+		product.setProductId(productEntity.getProductId());
+		product.setProductName(productEntity.getProductName());
+		product.setProductPrice(productEntity.getProductPrice());
+		product.setProductCategory(productEntity.getProductCategory());
+		product.setCreateOn(productEntity.getCreateOn());
+
+		return product;
+	}
+	
+	public static List<Product> productEntityToModelList(List<ProductEntity> entityList) {
+		
+		List<Product> productList = new ArrayList<>();
+		
+		entityList.forEach(entity -> {
+			Product product = new Product();
+			product.setProductId(entity.getProductId());
+			product.setProductName(entity.getProductName());
+			product.setProductPrice(entity.getProductPrice());
+			product.setProductCategory(entity.getProductCategory());
+			product.setCreateOn(entity.getCreateOn());
+			productList.add(product);
+		});
+		
+		return productList;
+
+}

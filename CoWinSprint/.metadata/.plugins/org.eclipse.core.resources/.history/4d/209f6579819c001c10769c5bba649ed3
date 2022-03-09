@@ -1,0 +1,17 @@
+package com.abc.appointmentservice.service;
+
+import com.abc.appointmentservice.entity.Appointment;
+import com.abc.appointmentservice.model.AppointmentDetails;
+
+public interface AppointmentService {
+	public Appointment BookAppointment(Appointment appointment);
+	
+	public void cancelAppointment(int appointmentId);
+	
+	public Appointment viewAppointmentbyId(int appointmentId);
+	
+	public Appointment updateAppointment(int appointmentId);
+	
+	public AppointmentDetails viewAppointmentdetails(int appointmentId);
+
+}

@@ -1,0 +1,42 @@
+package com.abc.appointmentservice.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.abc.appointmentservice.entity.Appointment;
+import com.abc.appointmentservice.exception.AppointmentNotFoundException;
+import com.abc.appointmentservice.repository.AppointmentRepository;
+
+@Service
+public class AppointmentServiceImpl implements AppointmentService {
+	
+	@Autowired
+	private AppointmentRepository  appointmentRepository;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private VaccinationCenterService vaccinationServiceService;
+
+	@Override
+	public Appointment BookAppointment(Appointment appointment) {
+		return appointmentRepository.save(appointment);
+	}
+
+	@Override
+	public void cancelAppointment(int appointmentId) {
+		Optional<Appointment> optionalCustomer = appointmentRepository.findById(appointmentId);
+		if (optionalCustomer.isPresent()) {
+			appointmentRepository.deleteById(appointmentId);
+		} else {
+			throw new AppointmentNotFoundException("sorry customer is not existing with id:" + appointmentId);
+		}
+	}
+		
+	}
+	
+
+}

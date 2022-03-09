@@ -1,0 +1,10 @@
+package com.abc.appointmentservice.service;
+
+import com.abc.appointmentservice.entity.Appointment;
+
+public interface AppointmentService {
+	public Appointment BookAppointment(Appointment appointment);
+	
+	public void cancelAppointment(int appointmentId);
+
+}
